@@ -1,0 +1,15 @@
+{
+  "name": "com.akacooh.baseforjams",
+  "version": "1.0.0",
+  "displayName": "Base For Jams",
+  "description": "A drop-in foundation for game jams: state-based pause (no Time.timeScale), a top-right pause button, an expandable settings menu (volume + sensitivity sliders), a title/start screen with Play, and a Quit button. One-click scene setup via Tools > Base For Jams > Setup Scene.",
+  "unity": "2021.3",
+  "author": {
+    "name": "akacooh"
+  },
+  "keywords": ["jam", "gamejam", "pause", "menu", "settings", "ui", "startscreen"],
+  "dependencies": {
+    "com.unity.ugui": "1.0.0",
+    "com.unity.inputsystem": "1.4.4"
+  }
+}

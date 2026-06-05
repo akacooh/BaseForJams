@@ -1,0 +1,43 @@
+using UnityEngine;
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
+
+namespace BaseForJams
+{
+    /// <summary>
+    /// Listens for the pause toggle input and forwards it to the <see cref="GameStateManager"/>.
+    /// All platform-specific input code is isolated here so GameStateManager stays pure state.
+    ///
+    /// Supports both the new Input System and the legacy Input Manager automatically
+    /// via the ENABLE_INPUT_SYSTEM compile define.
+    /// </summary>
+    [RequireComponent(typeof(GameStateManager))]
+    public class PauseInput : MonoBehaviour
+    {
+        private GameStateManager _state;
+
+#if !ENABLE_INPUT_SYSTEM
+        [Header("Legacy Input Manager")]
+        [Tooltip("Key that toggles the pause menu.")]
+        [SerializeField] private KeyCode toggleKey = KeyCode.Escape;
+#endif
+
+        private void Awake() => _state = GetComponent<GameStateManager>();
+
+        private void Update()
+        {
+            if (WasTogglePressed())
+                _state.Toggle();
+        }
+
+        private bool WasTogglePressed()
+        {
+#if ENABLE_INPUT_SYSTEM
+            return Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame;
+#else
+            return Input.GetKeyDown(toggleKey);
+#endif
+        }
+    }
+}
