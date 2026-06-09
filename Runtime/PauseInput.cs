@@ -33,7 +33,12 @@ namespace BaseForJams
 
         private bool WasTogglePressed()
         {
-#if ENABLE_INPUT_SYSTEM
+#if UNITY_WEBGL && !UNITY_EDITOR
+            // Browsers reserve Escape for exiting pointer lock / fullscreen, so the
+            // key fights the browser on WebGL — the on-screen pause button is the
+            // only toggle there.
+            return false;
+#elif ENABLE_INPUT_SYSTEM
             return Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame;
 #else
             return Input.GetKeyDown(toggleKey);
