@@ -55,7 +55,10 @@ namespace BaseForJams.Editor
                 var canvasGO = new GameObject("Canvas");
                 canvas = canvasGO.AddComponent<Canvas>();
                 canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-                canvasGO.AddComponent<CanvasScaler>();
+                var scaler = canvasGO.AddComponent<CanvasScaler>();
+                scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+                scaler.referenceResolution = new Vector2(1920, 1080);
+                scaler.matchWidthOrHeight = 0.5f;
                 canvasGO.AddComponent<GraphicRaycaster>();
                 Undo.RegisterCreatedObjectUndo(canvasGO, "Create Canvas");
             }
