@@ -16,10 +16,6 @@ namespace BaseForJams
         [Header("UI References")]
         [SerializeField] private Slider sensitivitySlider;
 
-        [Header("Range")]
-        [SerializeField] private float minSensitivity = 0.1f;
-        [SerializeField] private float maxSensitivity = 10f;
-
         private SettingsData _data;
 
         public override void Initialize(SettingsData data)
@@ -32,8 +28,8 @@ namespace BaseForJams
                 return;
             }
 
-            sensitivitySlider.minValue = minSensitivity;
-            sensitivitySlider.maxValue = maxSensitivity;
+            sensitivitySlider.minValue = SettingsData.MinMouseSensitivity;
+            sensitivitySlider.maxValue = SettingsData.MaxMouseSensitivity;
             sensitivitySlider.value    = _data.mouseSensitivity;
 
             sensitivitySlider.onValueChanged.RemoveListener(OnSliderChanged);

@@ -17,8 +17,12 @@ namespace BaseForJams
         public float masterVolume = 1f;
 
         // ── Gameplay ──────────────────────────────────────────────────────────
+        // Single source of truth for the sensitivity range — UI panels read these.
+        public const float MinMouseSensitivity = 0.1f;
+        public const float MaxMouseSensitivity = 10f;
+
         [Header("Gameplay")]
-        [Range(0.1f, 10f)]
+        [Range(MinMouseSensitivity, MaxMouseSensitivity)]
         public float mouseSensitivity = 1f;
 
         // ── Add future setting categories below, e.g.: ────────────────────────
