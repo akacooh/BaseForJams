@@ -17,6 +17,11 @@ namespace BaseForJams
         // ── Singleton ────────────────────────────────────────────────────────
         public static GameStateManager Instance { get; private set; }
 
+        // Support "Enter Play Mode Options" with domain reload disabled:
+        // statics survive between editor play sessions and must be reset manually.
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetStatics() => Instance = null;
+
         // ── State ────────────────────────────────────────────────────────────
         public enum GameState { Playing, Paused }
 

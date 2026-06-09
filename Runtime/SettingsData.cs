@@ -57,5 +57,17 @@ namespace BaseForJams
             PlayerPrefs.SetFloat(PrefsPrefix + nameof(mouseSensitivity), mouseSensitivity);
             PlayerPrefs.Save();
         }
+
+#if UNITY_EDITOR
+        // With "Enter Play Mode Options" (no domain reload) ScriptableObjects stay
+        // loaded between play sessions, so subscribers from the previous session
+        // would leak into the next one. Clear them when a new session starts.
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ClearStaleSubscribers()
+        {
+            foreach (var data in Resources.FindObjectsOfTypeAll<SettingsData>())
+                data.OnSettingsChanged = null;
+        }
+#endif
     }
 }
