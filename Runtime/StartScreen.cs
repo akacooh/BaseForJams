@@ -40,7 +40,8 @@ namespace BaseForJams
                     ? Application.productName
                     : titleOverride;
 
-            playButton?.onClick.AddListener(StartGame);
+            if (playButton != null)
+                playButton.onClick.AddListener(StartGame);
 
             Show();
         }

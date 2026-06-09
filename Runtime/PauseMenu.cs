@@ -49,15 +49,18 @@ namespace BaseForJams
                 return;
             }
 
-            // Wire buttons
-            pauseButton?.onClick.AddListener(gameState.Toggle);
-            resumeButton?.onClick.AddListener(gameState.Resume);
+            // Wire buttons (explicit null checks — '?.' bypasses Unity's lifetime check)
+            if (pauseButton != null)
+                pauseButton.onClick.AddListener(gameState.Toggle);
+            if (resumeButton != null)
+                resumeButton.onClick.AddListener(gameState.Resume);
 #if UNITY_WEBGL && !UNITY_EDITOR
             // Application.Quit is a no-op in browsers — hide the button entirely.
             if (quitButton != null)
                 quitButton.gameObject.SetActive(false);
 #else
-            quitButton?.onClick.AddListener(Quit);
+            if (quitButton != null)
+                quitButton.onClick.AddListener(Quit);
 #endif
 
             // Listen to state changes
