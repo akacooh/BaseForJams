@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace BaseForJams
@@ -36,6 +37,11 @@ namespace BaseForJams
         /// <summary>Raised when the player presses Play. Subscribe to begin gameplay.</summary>
         public event Action OnGameStarted;
 
+        /// <summary>Inspector-friendly mirror of <see cref="OnGameStarted"/> —
+        /// wire scene reactions here without writing code.</summary>
+        [Header("Inspector Events")]
+        [SerializeField] private UnityEvent onGameStarted;
+
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -67,6 +73,7 @@ namespace BaseForJams
         {
             Hide();
             OnGameStarted?.Invoke();
+            onGameStarted?.Invoke();
         }
 
         public void Show()

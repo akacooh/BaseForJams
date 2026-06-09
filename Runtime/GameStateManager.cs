@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace BaseForJams
 {
@@ -33,6 +34,12 @@ namespace BaseForJams
         /// pause/resume your own systems (AI, physics, animations, etc.).</summary>
         public event Action<GameState> OnStateChanged;
 
+        /// <summary>Inspector-friendly mirrors of <see cref="OnStateChanged"/> —
+        /// wire scene reactions here without writing code.</summary>
+        [Header("Inspector Events")]
+        [SerializeField] private UnityEvent onPaused;
+        [SerializeField] private UnityEvent onResumed;
+
         // ── Unity lifecycle ──────────────────────────────────────────────────
         private void Awake()
         {
@@ -61,6 +68,7 @@ namespace BaseForJams
             if (State == next) return;
             State = next;
             OnStateChanged?.Invoke(State);
+            (IsPaused ? onPaused : onResumed)?.Invoke();
         }
     }
 }
