@@ -34,7 +34,9 @@ namespace BaseForJams
         [SerializeField] private Button     quitButton;    // inside panel
 
         // ── Unity lifecycle ──────────────────────────────────────────────────
-        private void Awake()
+        // Wiring happens in Start (not Awake) so the GameStateManager singleton
+        // is guaranteed to exist regardless of Awake execution order.
+        private void Start()
         {
             // Fall back to singleton if not assigned in Inspector
             if (gameState == null)
