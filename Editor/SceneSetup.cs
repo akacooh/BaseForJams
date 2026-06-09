@@ -5,6 +5,9 @@ using UnityEngine.EventSystems;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem.UI;
 #endif
+#if BASEFORJAMS_TMP || BASEFORJAMS_TMP_UGUI
+using TMPro;
+#endif
 
 namespace BaseForJams.Editor
 {
@@ -108,7 +111,11 @@ namespace BaseForJams.Editor
             var so = new SerializedObject(screen);
             so.FindProperty("screenRoot").objectReferenceValue = rootGO;
             so.FindProperty("playButton").objectReferenceValue = playGO.GetComponent<Button>();
+#if BASEFORJAMS_TMP || BASEFORJAMS_TMP_UGUI
+            so.FindProperty("titleText").objectReferenceValue  = titleGO.GetComponent<TMP_Text>();
+#else
             so.FindProperty("titleText").objectReferenceValue  = titleGO.GetComponent<Text>();
+#endif
             so.ApplyModifiedProperties();
         }
 
@@ -240,6 +247,17 @@ namespace BaseForJams.Editor
             var go = new GameObject(name);
             go.transform.SetParent(parent, false);
             go.AddComponent<RectTransform>();
+#if BASEFORJAMS_TMP || BASEFORJAMS_TMP_UGUI
+            var text = go.AddComponent<TextMeshProUGUI>();
+            text.text         = content;
+            text.color        = Color.white;
+            text.fontSize     = fontSize;
+            // Only MiddleLeft and MiddleCenter are used by the builders above.
+            text.alignment    = anchor == TextAnchor.MiddleLeft
+                ? TextAlignmentOptions.Left
+                : TextAlignmentOptions.Center;
+            text.overflowMode = TextOverflowModes.Overflow;
+#else
             var text = go.AddComponent<Text>();
             text.text      = content;
             text.color     = Color.white;
@@ -248,6 +266,7 @@ namespace BaseForJams.Editor
             text.font      = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
             text.horizontalOverflow = HorizontalWrapMode.Overflow;
             text.verticalOverflow   = VerticalWrapMode.Overflow;
+#endif
             return go;
         }
 

@@ -2,6 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+#if BASEFORJAMS_TMP || BASEFORJAMS_TMP_UGUI
+using TMPro;
+#endif
 
 namespace BaseForJams
 {
@@ -25,7 +28,11 @@ namespace BaseForJams
         [Tooltip("The root object to show/hide for the whole start screen.")]
         [SerializeField] private GameObject screenRoot;
         [SerializeField] private Button     playButton;
+#if BASEFORJAMS_TMP || BASEFORJAMS_TMP_UGUI
+        [SerializeField] private TMP_Text   titleText;
+#else
         [SerializeField] private Text       titleText;
+#endif
 
         [Header("Title")]
         [Tooltip("Game title. Leave empty to use the Project's Product Name.")]

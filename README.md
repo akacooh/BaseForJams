@@ -12,6 +12,7 @@ A drop-in foundation for game jams. Adds, with one click, the boilerplate UI eve
 ## Installation
 
 Requires the **Input System** package (auto-resolved via dependencies).
+Uses **TextMeshPro** automatically when available (TMP package, or uGUI 2.0+ where TMP is built in); otherwise falls back to legacy UI Text.
 
 - **Git:** Package Manager → *+* → *Install package from git URL* → `https://github.com/akacooh/BaseForJams.git`
 - **Local:** add to `Packages/manifest.json`:
