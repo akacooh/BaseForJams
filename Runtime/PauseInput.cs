@@ -27,6 +27,11 @@ namespace BaseForJams
 
         private void Update()
         {
+            // Ignore the toggle while the title screen is up — pausing there is
+            // meaningless and Escape opening a menu over the title looks broken.
+            if (StartScreen.Instance != null && StartScreen.Instance.IsShowing)
+                return;
+
             if (WasTogglePressed())
                 _state.Toggle();
         }
