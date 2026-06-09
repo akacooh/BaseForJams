@@ -58,6 +58,7 @@ namespace BaseForJams
             // Initialize all setting panels found in children
             if (settingsData != null)
             {
+                settingsData.Load();
                 foreach (var panel in GetComponentsInChildren<SettingPanel>(includeInactive: true))
                     panel.Initialize(settingsData);
             }

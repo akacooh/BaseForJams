@@ -5,7 +5,7 @@ A drop-in foundation for game jams. Adds, with one click, the boilerplate UI eve
 - **State-based pause** — pauses via a `GameState` machine, **not** `Time.timeScale`. Systems subscribe to `GameStateManager.OnStateChanged` and suspend themselves.
 - **Top-right pause button** + Escape-to-toggle (new Input System or legacy).
 - **Start screen** — title + Play button. Fires `StartScreen.OnGameStarted`.
-- **Expandable settings menu** — volume & sensitivity sliders included.
+- **Expandable settings menu** — volume & sensitivity sliders included, values persist via PlayerPrefs.
 - **Quit button** — quits the build / stops Play Mode in the editor.
 
 ## Installation
@@ -18,8 +18,8 @@ Requires the **Input System** package (auto-resolved via dependencies).
 
 ## Quick start
 
-1. `Tools ▶ Base For Jams ▶ Setup Scene` — builds the GameStateManager, EventSystem, Canvas, StartScreen and PauseMenu, and auto-assigns a `SettingsData` asset.
-2. Create settings data if missing: `Assets ▶ Create ▶ Base For Jams ▶ Settings Data`.
+1. `Tools ▶ Base For Jams ▶ Setup Scene` — builds the GameStateManager, EventSystem, Canvas, StartScreen and PauseMenu, and auto-assigns a `SettingsData` asset (created at `Assets/SettingsData.asset` if none exists).
+2. Optionally create your own settings asset: `Assets ▶ Create ▶ Base For Jams ▶ Settings Data`.
 3. Hook gameplay to the Play button:
    ```csharp
    StartScreen.Instance.OnGameStarted += BeginGame;

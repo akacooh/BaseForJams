@@ -64,17 +64,13 @@ namespace BaseForJams.Editor
             DestroyChildIfExists(canvas.transform, "StartScreen");
             DestroyChildIfExists(canvas.transform, "PauseMenu");
 
-            // Locate a SettingsData asset to auto-assign (so no manual relink needed)
-            SettingsData settings = FindSettingsAsset();
+            // Locate (or create) a SettingsData asset to auto-assign
+            SettingsData settings = FindOrCreateSettingsAsset();
 
             // StartScreen first (renders behind), PauseMenu second (on top → pause
             // button stays clickable while the start screen is visible).
             BuildStartScreen(canvas.transform);
             BuildPauseMenu(canvas.transform, gameState, settings);
-
-            if (settings == null)
-                Debug.LogWarning("[BaseForJams] No SettingsData asset found. Create one via " +
-                                 "Assets ▶ Create ▶ Base For Jams ▶ Settings Data and assign it to PauseMenu.");
 
             Selection.activeObject = canvas.gameObject;
             Debug.Log("[BaseForJams] Scene setup complete (StartScreen + PauseMenu + Quit).");
@@ -312,12 +308,19 @@ namespace BaseForJams.Editor
                 Undo.DestroyObjectImmediate(child.gameObject);
         }
 
-        private static SettingsData FindSettingsAsset()
+        private static SettingsData FindOrCreateSettingsAsset()
         {
-            var guids = AssetDatabase.FindAssets("t:SettingsData");
-            return guids.Length == 0
-                ? null
-                : AssetDatabase.LoadAssetAtPath<SettingsData>(AssetDatabase.GUIDToAssetPath(guids[0]));
+            // Only search Assets/ — an asset that lives inside an installed package
+            // is immutable, so the user could never edit its defaults.
+            var guids = AssetDatabase.FindAssets("t:SettingsData", new[] { "Assets" });
+            if (guids.Length > 0)
+                return AssetDatabase.LoadAssetAtPath<SettingsData>(AssetDatabase.GUIDToAssetPath(guids[0]));
+
+            var settings = ScriptableObject.CreateInstance<SettingsData>();
+            AssetDatabase.CreateAsset(settings, "Assets/SettingsData.asset");
+            AssetDatabase.SaveAssets();
+            Debug.Log("[BaseForJams] Created settings asset at Assets/SettingsData.asset");
+            return settings;
         }
     }
 }

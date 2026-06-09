@@ -30,6 +30,32 @@ namespace BaseForJams
         /// <summary>Fired whenever any setting is modified at runtime.</summary>
         public event Action OnSettingsChanged;
 
-        public void NotifyChanged() => OnSettingsChanged?.Invoke();
+        /// <summary>Persists the current values and notifies listeners.
+        /// Call after modifying any setting.</summary>
+        public void NotifyChanged()
+        {
+            Save();
+            OnSettingsChanged?.Invoke();
+        }
+
+        // ── Persistence (PlayerPrefs) ─────────────────────────────────────────
+        private const string PrefsPrefix = "BaseForJams.";
+
+        /// <summary>Restores saved values from PlayerPrefs. The values serialized
+        /// in the asset act as defaults for keys that were never saved.
+        /// Called by PauseMenu on startup.</summary>
+        public void Load()
+        {
+            masterVolume     = PlayerPrefs.GetFloat(PrefsPrefix + nameof(masterVolume),     masterVolume);
+            mouseSensitivity = PlayerPrefs.GetFloat(PrefsPrefix + nameof(mouseSensitivity), mouseSensitivity);
+            OnSettingsChanged?.Invoke();
+        }
+
+        private void Save()
+        {
+            PlayerPrefs.SetFloat(PrefsPrefix + nameof(masterVolume),     masterVolume);
+            PlayerPrefs.SetFloat(PrefsPrefix + nameof(mouseSensitivity), mouseSensitivity);
+            PlayerPrefs.Save();
+        }
     }
 }
