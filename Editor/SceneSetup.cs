@@ -76,7 +76,7 @@ namespace BaseForJams.Editor
             BuildPauseMenu(canvas.transform, gameState, settings);
 
             Selection.activeObject = canvas.gameObject;
-            Debug.Log("[BaseForJams] Scene setup complete (StartScreen + PauseMenu + Quit).");
+            Debug.Log("[BaseForJams] Scene setup complete (StartScreen + PauseMenu + Restart + Quit).");
         }
 
         // ── Builders ──────────────────────────────────────────────────────────
@@ -157,7 +157,7 @@ namespace BaseForJams.Editor
             BuildSettingRow<VolumePanel>(containerGO.transform,      "Volume",      "volumeSlider");
             BuildSettingRow<SensitivityPanel>(containerGO.transform, "Sensitivity", "sensitivitySlider");
 
-            // Button row: Resume | Quit
+            // Button row: Resume | Restart | Quit
             var rowGO = new GameObject("ButtonRow");
             rowGO.transform.SetParent(panelGO.transform, false);
             var rowRect = rowGO.AddComponent<RectTransform>();
@@ -169,8 +169,9 @@ namespace BaseForJams.Editor
             hlg.childControlWidth = true;  hlg.childControlHeight = true;
             hlg.childForceExpandWidth = true; hlg.childForceExpandHeight = true;
 
-            var resumeBtnGO = CreateButton(rowGO.transform, "ResumeButton", "Resume");
-            var quitBtnGO   = CreateButton(rowGO.transform, "QuitButton",   "Quit");
+            var resumeBtnGO  = CreateButton(rowGO.transform, "ResumeButton",  "Resume");
+            var restartBtnGO = CreateButton(rowGO.transform, "RestartButton", "Restart");
+            var quitBtnGO    = CreateButton(rowGO.transform, "QuitButton",    "Quit");
             quitBtnGO.GetComponent<Image>().color = new Color(0.5f, 0.2f, 0.2f, 1f); // red-ish
 
             panelGO.SetActive(false);
@@ -181,8 +182,9 @@ namespace BaseForJams.Editor
             so.FindProperty("settingsData").objectReferenceValue = settings;
             so.FindProperty("pausePanel").objectReferenceValue   = panelGO;
             so.FindProperty("pauseButton").objectReferenceValue  = pauseBtnGO.GetComponent<Button>();
-            so.FindProperty("resumeButton").objectReferenceValue = resumeBtnGO.GetComponent<Button>();
-            so.FindProperty("quitButton").objectReferenceValue   = quitBtnGO.GetComponent<Button>();
+            so.FindProperty("resumeButton").objectReferenceValue  = resumeBtnGO.GetComponent<Button>();
+            so.FindProperty("restartButton").objectReferenceValue = restartBtnGO.GetComponent<Button>();
+            so.FindProperty("quitButton").objectReferenceValue    = quitBtnGO.GetComponent<Button>();
             so.ApplyModifiedProperties();
         }
 

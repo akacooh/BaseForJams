@@ -6,7 +6,8 @@ A drop-in foundation for game jams. Adds, with one click, the boilerplate UI eve
 - **Top-right pause button** + Escape-to-toggle (new Input System or legacy).
 - **Start screen** — title + Play button. Fires `StartScreen.OnGameStarted`.
 - **Expandable settings menu** — volume & sensitivity sliders included, values persist via PlayerPrefs.
-- **Quit button** — quits the build / stops Play Mode in the editor.
+- **Restart button** — resumes and reloads the active scene.
+- **Quit button** — quits the build / stops Play Mode in the editor (hidden on WebGL).
 
 ## Installation
 

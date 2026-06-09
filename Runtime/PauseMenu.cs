@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace BaseForJams
@@ -14,7 +15,7 @@ namespace BaseForJams
     ///      ├─ Header
     ///      ├─ SettingsContainer
     ///      │   └─ VolumePanel  [VolumePanel component → Label + Slider]
-    ///      └─ ButtonRow → Resume | Quit
+    ///      └─ ButtonRow → Resume | Restart | Quit
     ///
     /// Adding new setting sections:
     ///   Add a new child GameObject to SettingsContainer, attach your
@@ -31,6 +32,7 @@ namespace BaseForJams
         [SerializeField] private GameObject pausePanel;
         [SerializeField] private Button     pauseButton;   // top-right corner
         [SerializeField] private Button     resumeButton;  // inside panel
+        [SerializeField] private Button     restartButton; // inside panel
         [SerializeField] private Button     quitButton;    // inside panel
 
         // ── Unity lifecycle ──────────────────────────────────────────────────
@@ -54,6 +56,8 @@ namespace BaseForJams
                 pauseButton.onClick.AddListener(gameState.Toggle);
             if (resumeButton != null)
                 resumeButton.onClick.AddListener(gameState.Resume);
+            if (restartButton != null)
+                restartButton.onClick.AddListener(Restart);
 #if UNITY_WEBGL && !UNITY_EDITOR
             // Application.Quit is a no-op in browsers — hide the button entirely.
             if (quitButton != null)
@@ -98,6 +102,16 @@ namespace BaseForJams
         {
             if (pausePanel != null)
                 pausePanel.SetActive(visible);
+        }
+
+        // ── Restart ──────────────────────────────────────────────────────────
+        /// <summary>Resumes and reloads the active scene.</summary>
+        public void Restart()
+        {
+            // Resume first — GameStateManager survives the reload (DontDestroyOnLoad),
+            // so a paused state would otherwise carry over into the fresh scene.
+            gameState.Resume();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
         // ── Quit ─────────────────────────────────────────────────────────────
