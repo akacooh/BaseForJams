@@ -49,7 +49,8 @@ namespace BaseForJams.Editor
 
             // ── Canvas ────────────────────────────────────────────────────────
             Canvas canvas = null;
-            foreach (var c in Object.FindObjectsByType<Canvas>(FindObjectsInactive.Exclude))
+            // Inactive objects are excluded by default; no sorting needed.
+            foreach (var c in Object.FindObjectsByType<Canvas>(FindObjectsSortMode.None))
             {
                 if (c.renderMode == RenderMode.ScreenSpaceOverlay) { canvas = c; break; }
             }
